@@ -21,7 +21,7 @@
 ### 🎯┃Auto-Farm
 
 ```js
-javascript:fetch("https://raw.githubusercontent.com/JrCrespi/WPlace-AutoBOT/refs/heads/main/Auto-Farm.js").then(t=>t.text()).then(eval);
+javascript:fetch("https://raw.githubusercontent.com/JrCrespi/Test-BOT/refs/heads/main/Auto-Farm.js").then(t=>t.text()).then(eval);
 ```
 
 ### 🖼️┃Auto-Image
