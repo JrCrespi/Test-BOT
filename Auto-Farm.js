@@ -46,36 +46,36 @@
   });
 
   const getToken = () => {
-  // Tente achar o token em algum objeto global do site
-  // Ajuste se o site usa outro caminho
-  if (window.USER_TOKEN) return window.USER_TOKEN;
-  if (window.__STATE__?.me?.t) return window.__STATE__.me.t;
-  if (window.__INITIAL_STATE__?.me?.t) return window.__INITIAL_STATE__.me.t;
-  console.warn("⚠ Token 't' não encontrado!");
-  return null;
+  const cookie = document.cookie.split('; ').find(row => row.startsWith('j='));
+  if (!cookie) return null;
+
+  const jwt = cookie.split('=')[1];
+  try {
+    const payload = JSON.parse(atob(jwt.split('.')[1])); // decodifica o payload do JWT
+    return payload.t || payload.sessionId || null;
+  } catch (e) {
+    console.error("❌ Erro ao decodificar JWT:", e);
+    return null;
+  }
 };
 
   const paintPixel = async (x, y) => {
   try {
-    // 1️⃣ Obter token
     const token = getToken();
-
     if (!token) {
       console.error("❌ Token 't' não encontrado!");
       return { painted: 0 };
     }
 
-    // 2️⃣ Preparar payload
     const payload = {
       coords: [x, y],
       colors: [Math.floor(Math.random() * 31) + 1],
-      t: token
+      t: token  // ✅ aqui o token entra no payload
     };
 
-    // 3️⃣ Enviar requisição
     const res = await fetch(`https://backend.wplace.live/s0/pixel/${x}/${y}`, {
       method: 'POST',
-      credentials: 'include', // envia cookies do site
+      credentials: 'include',
       headers: {
         'Content-Type': 'text/plain;charset=UTF-8',
         'Origin': 'https://wplace.live',
