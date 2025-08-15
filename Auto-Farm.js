@@ -45,14 +45,56 @@
     y: Math.floor(Math.random() * CONFIG.PIXELS_PER_LINE)
   });
 
+  const getToken = () => {
+  // Tente achar o token em algum objeto global do site
+  // Ajuste se o site usa outro caminho
+  if (window.USER_TOKEN) return window.USER_TOKEN;
+  if (window.__STATE__?.me?.t) return window.__STATE__.me.t;
+  if (window.__INITIAL_STATE__?.me?.t) return window.__INITIAL_STATE__.me.t;
+  console.warn("⚠ Token 't' não encontrado!");
+  return null;
+};
+
   const paintPixel = async (x, y) => {
-    const randomColor = Math.floor(Math.random() * 31) + 1;
-    return await fetchAPI(`https://backend.wplace.live/s0/pixel/${CONFIG.START_X}/${CONFIG.START_Y}`, {
+  try {
+    // 1️⃣ Obter token
+    const token = getToken();
+
+    if (!token) {
+      console.error("❌ Token 't' não encontrado!");
+      return { painted: 0 };
+    }
+
+    // 2️⃣ Preparar payload
+    const payload = {
+      coords: [x, y],
+      colors: [Math.floor(Math.random() * 31) + 1],
+      t: token
+    };
+
+    // 3️⃣ Enviar requisição
+    const res = await fetch(`https://backend.wplace.live/s0/pixel/${x}/${y}`, {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-      body: JSON.stringify({ coords: [x, y], colors: [randomColor] })
+      credentials: 'include', // envia cookies do site
+      headers: {
+        'Content-Type': 'text/plain;charset=UTF-8',
+        'Origin': 'https://wplace.live',
+        'Referer': 'https://wplace.live/',
+        'Accept': '*/*'
+      },
+      body: JSON.stringify(payload)
     });
-  };
+
+    if (!res.ok) return { painted: 0 };
+
+    const data = await res.json();
+    return data;
+
+  } catch (e) {
+    console.error("❌ Erro ao pintar pixel:", e);
+    return { painted: 0 };
+  }
+};
 
   const getCharge = async () => {
     const data = await fetchAPI('https://backend.wplace.live/me');

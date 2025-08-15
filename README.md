@@ -1,23 +1,3 @@
-<p align="center">
-  Translations ➜&nbsp;
-    <a href="EN.md"><img src="https://flagcdn.com/256x192/us.png" width="48" alt="USA Flag"></a>
-  &nbsp;
-    <a href="FR.md"><img src="https://flagcdn.com/256x192/fr.png" width="48" alt="French Flag"></a>
-  &nbsp;
-    <a href="RU.md"><img src="https://flagcdn.com/256x192/ru.png" width="48" alt="Russian Flag"></a>
-  &nbsp;
-    <a href="NL.md"><img src="https://flagcdn.com/256x192/nl.png" width="48" alt="Netherlands Flag"></a>
-  &nbsp;
-    <a href="UK.md"><img src="https://flagcdn.com/256x192/ua.png" width="48" alt="Ukrainian Flag"></a>
-</p>
-
----
-
-> [!NOTE]
-> **Olá, vou ser sincero com vocês: está muito complicado recriar esse script, porque a segurança do site ficou muito melhor; eles adicionaram Cloudflare nas requisições mais importantes, um anti-debugger que bloqueia o site e envia outro captcha quando o console do navegador está aberto, estão mandando captcha a cada 2 minutos e ainda bloquearam o Burp Suite no website, então sim, realmente está muito difícil recriar o script; sinceramente, não sei mais o que fazer, perdi minhas ideias e é isso… se alguém tiver alguma ideia e quiser ajudar no código, fique à vontade.**
-
----
-
 <p align="center"><strong>WPlace AutoBOT</strong></p>
 
 <p align="center">
@@ -26,11 +6,6 @@
 </p>
 
 <br>
-
-<p align="center">
-  <sub><strong>Não fui eu que 'hackeei' o WPlace e coloquei o Herobrine gigantesco lá...<br>
-  E se você está curioso: sim! Esses scripts foram feitos por um brasileiro, HUEHUE!</strong></sub>
-</p>
 
 ---
 
@@ -89,14 +64,6 @@ javascript:fetch("https://raw.githubusercontent.com/DarkModde/WPlace-AutoBOT/ref
 </p>
 
 ---
-
-### 📋┃To-do
-
-- [x] Tradução [BR/USA]  
-- [ ] Juntar os 2 scripts em 1  
-- [x] Corrigir bugs dos scripts  
-- [x] Adicionar novas opções
-- [ ] Tutoriais
 
 ---
 
