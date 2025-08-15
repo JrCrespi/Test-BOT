@@ -27,6 +27,24 @@
   };
 
   const sleep = ms => new Promise(r => setTimeout(r, ms));
+  
+  // Hook no fetch para capturar o token 't' dinâmico
+  (function() {
+    const originalFetch = window.fetch;
+    window.fetch = async function(input, init) {
+      if (typeof input === 'string' && input.includes('/s0/pixel/')) {
+        try {
+          const body = init?.body ? JSON.parse(init.body) : null;
+          if (body?.t) {
+            window.LAST_TOKEN = body.t;
+          }
+        } catch(e) {
+          console.warn("Falha ao ler payload:", e);
+        }
+      }
+      return originalFetch.apply(this, arguments);
+    };
+  })();
 
   const fetchAPI = async (url, options = {}) => {
     try {
@@ -45,25 +63,12 @@
     y: Math.floor(Math.random() * CONFIG.PIXELS_PER_LINE)
   });
 
-  const getToken = () => {
-  const cookie = document.cookie.split('; ').find(row => row.startsWith('j='));
-  if (!cookie) return null;
-
-  const jwt = cookie.split('=')[1];
-  try {
-    const payload = JSON.parse(atob(jwt.split('.')[1])); // decodifica o payload do JWT
-    return payload.t || payload.sessionId || null;
-  } catch (e) {
-    console.error("❌ Erro ao decodificar JWT:", e);
-    return null;
-  }
-};
-
   const paintPixel = async (x, y) => {
   try {
-    const token = getToken();
+    // Usar token capturado dinamicamente
+    const token = window.LAST_TOKEN;
     if (!token) {
-      console.error("❌ Token 't' não encontrado!");
+      console.warn("❌ Token 't' não encontrado!");
       return { painted: 0 };
     }
 
